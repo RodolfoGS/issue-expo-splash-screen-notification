@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -31,7 +34,10 @@ async function sendLocalNotification() {
 }
 
 export default function App() {
-  sendLocalNotification();
+  useEffect(() => {
+    SplashScreen.hide();
+    sendLocalNotification();
+  }, []);
 
   return (
     <View style={styles.container}>
