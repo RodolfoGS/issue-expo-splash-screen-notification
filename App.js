@@ -1,8 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+async function sendLocalNotification() {
+  await Notifications.requestPermissionsAsync({
+    ios: {
+      allowAlert: true,
+      allowBadge: true,
+      allowSound: true,
+    },
+  });
+
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'Look at that notification',
+      body: "I'm so proud of myself!",
+    },
+    trigger: null,
+  });
+}
 
 export default function App() {
+  sendLocalNotification();
+
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
